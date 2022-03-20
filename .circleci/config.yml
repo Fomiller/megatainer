@@ -4,6 +4,9 @@ jobs:
     working_directory: /app
     docker:
       - image: docker:17.05.0-ce-git
+        auth:
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
       - setup_remote_docker
@@ -15,6 +18,5 @@ jobs:
           name: Push application Docker image
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              docker login --username $DOCKERHUB_USER --password $DOCKERHUB_PASSWORD
               docker push fomiller/megatainer:latest fomiller/megatainer:${CIRCLE_SHA1}
             fi
