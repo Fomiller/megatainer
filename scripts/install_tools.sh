@@ -26,7 +26,7 @@ tfswitch 1.1.6
 echo "======> Downloading and installing tgswitch"
 curl -L https://raw.githubusercontent.com/warrensbox/tgswitch/release/install.sh | bash
 echo "======> Installing terragrunt 0.36.1"
-tgswitch 1.1.6
+tgswitch 0.36.1
 
 
 # install aws
