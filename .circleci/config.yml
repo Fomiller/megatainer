@@ -18,6 +18,7 @@ jobs:
           name: Push application Docker image
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker login
               docker push fomiller/megatainer:latest 
               docker push fomiller/megatainer:${CIRCLE_SHA1}
             fi
