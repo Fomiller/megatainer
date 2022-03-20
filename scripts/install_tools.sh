@@ -21,8 +21,13 @@ rm -rf /usr/local/go && tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz
 # install terraform
 echo "======> Downloading and installing tfswitch"
 curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
+echo "======> Installing terraform 1.1.6"
+tfswitch 1.1.6
 echo "======> Downloading and installing tgswitch"
 curl -L https://raw.githubusercontent.com/warrensbox/tgswitch/release/install.sh | bash
+echo "======> Installing terragrunt 0.36.1"
+tgswitch 1.1.6
+
 
 # install aws
 echo "======> Downloading and installing aws cli"
