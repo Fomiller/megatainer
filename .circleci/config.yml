@@ -7,18 +7,20 @@ jobs:
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    environment:
+      IMAGE_NAME: fomiller/megatainer
     steps:
       - checkout
       - setup_remote_docker
       - run:
           name: Build application Docker image
           command: |
-            docker build -t fomiller/megatainer:latest -t fomiller/megatainer:${CIRCLE_SHA1} .
+            docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:${CIRCLE_SHA1} .
       - deploy:
           name: Push application Docker image
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              docker login
-              docker push fomiller/megatainer:latest 
-              docker push fomiller/megatainer:${CIRCLE_SHA1}
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+              docker push $IMAGE_NAME:latest
+              docker push $IMAGE_NAME:${CIRCLE_SHA1}
             fi
