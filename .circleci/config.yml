@@ -1,6 +1,8 @@
 version: 2
 jobs:
   build:
+    context:
+      - docker-credentials
     working_directory: /app
     docker:
       - image: docker:17.05.0-ce-git
