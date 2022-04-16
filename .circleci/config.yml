@@ -1,6 +1,8 @@
 version: 2
+
 workflows:
-  builx-deploy:
+  version: 2
+  buildx-deploy:
     jobs:
       - build:
           context: docker-credentials
