@@ -11,24 +11,43 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     environment:
       IMAGE_NAME: fomiller/megatainer
+      BUILDX_PLATFORMS: linux/amd64,linux/arm64
     steps:
       - checkout
       - setup_remote_docker:
           version: 18.09.3
       - run:
-          name: install docker buildx 
+          name: Install buildx
           command: |
+            BUILDX_BINARY_URL="https://github.com/docker/buildx/releases/download/v0.4.2/buildx-v0.4.2.linux-amd64"
             apk add curl
-            mkdir -vp ~/.docker/cli-plugins/
-            curl --silent -L --output ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v0.3.1/buildx-v0.3.1.linux-amd64
+
+            curl --output docker-buildx \
+              --silent --show-error --location --fail --retry 3 \
+              "$BUILDX_BINARY_URL"
+
+            mkdir -p ~/.docker/cli-plugins
+
+            mv docker-buildx ~/.docker/cli-plugins/
             chmod a+x ~/.docker/cli-plugins/docker-buildx
-            docker buildx version
+
+            docker buildx install
+            docker run --rm --privileged tonistiigi/binfmt:latest --install "$BUILDX_PLATFORMS"
+      # - run:
+      #     name: install docker buildx 
+      #     command: |
+      #       apk add curl
+      #       mkdir -vp ~/.docker/cli-plugins/
+      #       curl --silent -L --output ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v0.3.1/buildx-v0.3.1.linux-amd64
+      #       chmod a+x ~/.docker/cli-plugins/docker-buildx
+      #       docker buildx version
 
       - run:
           name: Build application Docker image
           command: |
-            docker build \
-              --platform linux/arm64 \
+            docker buildx create --name mybuilder --use
+            docker buildx build \
+              --platform $BUILDX_PLATFORMS \
               --tag $IMAGE_NAME:latest -t $IMAGE_NAME:${CIRCLE_SHA1} .
 
       - deploy:
