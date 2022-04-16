@@ -45,7 +45,8 @@ jobs:
       - run:
           name: Build application Docker image
           command: |
-            docker buildx create --name mybuilder --use
+            docker context create mybuilder
+            docker buildx create mybuilder --use
             docker buildx build \
               --platform $BUILDX_PLATFORMS \
               --tag $IMAGE_NAME:latest -t $IMAGE_NAME:${CIRCLE_SHA1} .
