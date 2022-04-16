@@ -5,7 +5,7 @@ jobs:
       - docker-credentials
     working_directory: /app
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: docker:stable
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
@@ -17,10 +17,11 @@ jobs:
       - run:
           name: install docker buildx 
           command: |
-            DOCKER_CLI_EXPERIENTAL=enabled
+            apk add make curl
+            mkdir -vp ~/.docker/cli-plugins/
+            curl --silent -L --output ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v0.3.1/buildx-v0.3.1.linux-amd64
+            chmod a+x ~/.docker/cli-plugins/docker-buildx
             docker buildx version
-            docker context create fomiller
-            docker buildx create fomille --use
 
       - run:
           name: Build application Docker image
