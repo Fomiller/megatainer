@@ -26,7 +26,9 @@ jobs:
       - run:
           name: Build application Docker image
           command: |
-            docker buildx build --platform linux/amd64,linux/arm64 -t $IMAGE_NAME:latest -t $IMAGE_NAME:${CIRCLE_SHA1} .
+            docker buildx build \
+              --platform linux/amd64,linux/arm64 \
+              --tag $IMAGE_NAME:latest -t $IMAGE_NAME:${CIRCLE_SHA1} .
 
       - deploy:
           name: Push application Docker image
