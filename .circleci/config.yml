@@ -42,6 +42,12 @@ jobs:
       #       chmod a+x ~/.docker/cli-plugins/docker-buildx
       #       docker buildx version
 
+      - run: 
+          name: Docker login 
+          command: |
+            echo $DOCKERHUB_PASSWORD
+            echo $DOCKERHUB_USER
+            docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
       - run:
           name: Build application Docker image
           command: |
