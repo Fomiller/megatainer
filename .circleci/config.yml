@@ -22,11 +22,12 @@ jobs:
             curl --silent -L --output ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v0.3.1/buildx-v0.3.1.linux-amd64
             chmod a+x ~/.docker/cli-plugins/docker-buildx
             docker buildx version
+            docker builx create --buildkit-flags '--debug'
 
       - run:
           name: Build application Docker image
           command: |
-            DOCKER_BUILDKIT=1 docker buildx build --platform linux/amd64,linux/arm64 -t $IMAGE_NAME:latest -t $IMAGE_NAME:${CIRCLE_SHA1} .
+            docker buildx build --platform linux/amd64,linux/arm64 -t $IMAGE_NAME:latest -t $IMAGE_NAME:${CIRCLE_SHA1} .
 
       - deploy:
           name: Push application Docker image
