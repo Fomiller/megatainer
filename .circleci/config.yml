@@ -26,15 +26,7 @@ jobs:
       - setup_remote_docker:
           version: 18.09.3
 
-      # - run:
-      #     name: install docker buildx
-      #     command: |
-      #       apk add curl
-      #       mkdir -vp ~/.docker/cli-plugins/
-      #       curl --silent -L --output ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v0.3.1/buildx-v0.3.1.linux-amd64
-      #       chmod a+x ~/.docker/cli-plugins/docker-buildx
-      #       docker buildx version
-
+      - run: docker buildx version
       - run: 
           name: Docker login 
           command: |
@@ -50,12 +42,3 @@ jobs:
               -t $IMAGE_NAME:latest \
               -t $IMAGE_NAME:${CIRCLE_SHA1} \
               -t $IMAGE_NAME:${CIRCLE_BRANCH} .
-
-      # - deploy:
-      #     name: Push application Docker image
-      #     command: |
-      #       if [ "${CIRCLE_BRANCH}" == "master" ]; then
-      #         docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
-      #         docker push $IMAGE_NAME:latest
-      #         docker push $IMAGE_NAME:${CIRCLE_SHA1}
-      #       fi
