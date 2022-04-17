@@ -8,10 +8,8 @@ workflows:
           context: docker-credentials
 jobs:
   build:
-    working_directory: /app
-
     docker:
-      - image: fomiller/buildx:latest
+      - image: cimg/base:stable
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
@@ -24,9 +22,8 @@ jobs:
       - checkout
 
       - setup_remote_docker:
-          version: 18.09.3
+          version: 20.10.11
 
-      - run: docker buildx version
       - run: 
           name: Docker login 
           command: |
@@ -35,8 +32,9 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
-            docker context create mybuilder
-            docker buildx create mybuilder --use
+            docker run --privileged --rm tonistiigi/binfmt --install all
+            docker context create buildx-builder
+            docker buildx create --use buildx-builder
             docker buildx build --push \
               --platform $BUILDX_PLATFORMS \
               -t $IMAGE_NAME:latest \
