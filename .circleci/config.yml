@@ -43,22 +43,13 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
+            docker context create mybuilder
+            docker buildx create mybuilder --use
             docker buildx build --push \
               --platform $BUILDX_PLATFORMS \
               -t $IMAGE_NAME:latest \
               -t $IMAGE_NAME:${CIRCLE_SHA1} \
               -t $IMAGE_NAME:${CIRCLE_BRANCH} .
-
-      # - run:
-      #     name: Build and push Docker image
-      #     command: |
-      #       docker context create mybuilder
-      #       docker buildx create mybuilder --use
-      #       docker buildx build --push \
-      #         --platform $BUILDX_PLATFORMS \
-      #         -t $IMAGE_NAME:latest \
-      #         -t $IMAGE_NAME:${CIRCLE_SHA1} \
-      #         -t $IMAGE_NAME:${CIRCLE_BRANCH} .
 
       # - deploy:
       #     name: Push application Docker image
