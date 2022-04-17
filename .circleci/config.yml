@@ -9,7 +9,7 @@ workflows:
 jobs:
   build:
     docker:
-      - image: fomiller/buildx:latest
+      - image: cimg/base:stable
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
@@ -32,6 +32,7 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
+            docker run --privileged --rm tonistiigi/binfmt --install all
             docker context create buildx-builder
             docker buildx create --use buildx-builder
             docker buildx build --push \
