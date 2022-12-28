@@ -55,7 +55,7 @@ tgswitch 0.36.1
 
 # # install aws
 echo "======> Downloading and installing aws cli"
-if [ "$ARCH" = "x86_64"]; then
+if [ "$ARCH" = "amd64"]; then
   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
   unzip awscliv2.zip
   sh ./aws/install
