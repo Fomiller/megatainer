@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 ARG USER=root
-
+ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH=$PATH:/usr/local/go/bin:/root/.please/bin:/.local/bin
 ENV AWS_DEFAULT_PROFILE="saml"
 
