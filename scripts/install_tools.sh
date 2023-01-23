@@ -27,6 +27,7 @@ echo "Running on ${ARCH}"
 apt-get update && apt-get upgrade
 apt-get install -y wget
 apt-get install -y curl
+apt-get install -y git
 apt-get install -y unzip && apt-get install -y zip
 
 # # install python3.9
@@ -36,9 +37,14 @@ apt-get update && apt-get install -y python3.9 python3-distutils python3-pip pyt
 apt-get install python-is-python3
 
 # # install golang
-# echo "======> Downloading and installing golang"
+echo "======> Downloading and installing golang"
 wget https://golang.org/dl/go1.18.linux-${ARCH}.tar.gz
 rm -rf /usr/local/go && tar -C /usr/local -xzf go1.18.linux-${ARCH}.tar.gz
+# 
+# # install cargo/rust
+echo "======> Downloading and installing rust"
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+source $HOME/.cargo/env
 
 # install terraform
 echo "======> Downloading and installing tfswitch"
@@ -52,6 +58,8 @@ curl -L https://raw.githubusercontent.com/warrensbox/tgswitch/release/install.sh
 echo "======> Installing terragrunt 0.36.1"
 tgswitch 0.36.1
 
+echo "======> Downloading and installing just"
+cargo install just 
 
 # # install aws
 # echo "======> Downloading and installing aws cli"
