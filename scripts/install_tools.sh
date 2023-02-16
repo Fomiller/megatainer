@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 OS=`uname`
 if [ "$OS" = "Linux" ]; then
@@ -29,6 +29,8 @@ apt-get update && apt-get upgrade
 apt-get install -y wget
 apt-get install -y curl
 apt-get install -y git
+apt-get install -y git
+apt-get install -y build-essential
 apt-get install -y unzip && apt-get install -y zip
 
 # # install python3.9
@@ -41,11 +43,16 @@ apt-get install python-is-python3
 echo "======> Downloading and installing golang"
 wget https://golang.org/dl/go1.18.linux-${ARCH}.tar.gz
 rm -rf /usr/local/go && tar -C /usr/local -xzf go1.18.linux-${ARCH}.tar.gz
-# 
-# # install cargo/rust
+ 
+echo "======> Installing Go programs"
+go install github.com/Fomiller/assume-role@latest
+
 echo "======> Downloading and installing rust"
 curl https://sh.rustup.rs -sSf | sh -s -- -y
 source $HOME/.cargo/env
+
+echo "======> Installing Cargo programs"
+cargo install just 
 
 # install terraform
 echo "======> Downloading and installing tfswitch"
@@ -59,29 +66,15 @@ curl -L https://raw.githubusercontent.com/warrensbox/tgswitch/release/install.sh
 echo "======> Installing terragrunt 0.36.1"
 tgswitch 0.36.1
 
-echo "======> Downloading and installing just"
-cargo install just 
 
-# # install aws
-# echo "======> Downloading and installing aws cli"
-# if [ "$ARCH" = "amd64"]; then
-#   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-#   unzip awscliv2.zip
-#   sh ./aws/install
-# else
-#   curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip"
-#   unzip awscliv2.zip
-#   sh ./aws/install
-# fi
-
-# #install please.build
-# echo "======> Downloading and installing please.build"
-# please install script does not work on arm64, but i think it is still possible to install
-# please is not compatible with aarch64 architecture even though arm64 and aarch64 are the same
-# curl https://get.please.build > please.sh
-# ls
-# sh ./please.sh
-# source ~/.profile
-# echo 'source <(plz --completion_script)' > ~/.bashrc
-# rm -f please.sh
-# plz --version
+# install aws
+echo "======> Downloading and installing aws cli"
+if [ "$ARCH" = "amd64"]; then
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  unzip awscliv2.zip
+  sh ./aws/install
+else
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip"
+  unzip awscliv2.zip
+  sh ./aws/install
+fi
