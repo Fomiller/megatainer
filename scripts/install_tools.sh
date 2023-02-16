@@ -41,7 +41,7 @@ apt-get install python-is-python3
 
 # # install golang
 echo "======> Downloading and installing golang"
-wget https://golang.org/dl/go1.18.linux-${ARCH}.tar.gz
+wget -nv https://golang.org/dl/go1.18.linux-${ARCH}.tar.gz
 rm -rf /usr/local/go && tar -C /usr/local -xzf go1.18.linux-${ARCH}.tar.gz
  
 echo "======> Installing Go programs"
