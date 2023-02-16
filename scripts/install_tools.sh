@@ -50,8 +50,6 @@ go install github.com/Fomiller/assume-role@latest
 echo "======> Downloading and installing rust"
 curl https://sh.rustup.rs -sSf | sh -s -- -y
 source $HOME/.cargo/env
-rustup update nightly
-cargo +nightly -Z sparse-registry update
 
 echo "======> Installing Cargo programs"
 cargo install just 
