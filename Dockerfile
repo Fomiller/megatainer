@@ -8,9 +8,7 @@ ENV PATH=$PATH:/usr/local/go/bin:/root/.please/bin:/.local/bin
 ENV AWS_DEFAULT_PROFILE="default"
 ENV AWS_ASSUME_PROFILE="default"
 
-COPY ./scripts ./
-RUN ls
-RUN ls ./scripts/
+COPY scripts ./scripts/
 
 RUN chmod +x ./scripts/install_tools.sh ./scripts/go_tools.sh && \
     ./scripts/install_tools.sh && \
