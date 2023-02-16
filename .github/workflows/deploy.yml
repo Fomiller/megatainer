@@ -9,9 +9,16 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+      
     env:
       DOCKER_REPO: "fomiller"
       IMAGE_NAME: "megatainer"
+        
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [linux/amd64,linux/arm64]
+      
     steps:
       -
         name: Checkout
@@ -33,6 +40,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ matrix.os }}
           push: true
           tags: ${{env.DOCKER_REPO}}/${{env.IMAGE_NAME}}:latest

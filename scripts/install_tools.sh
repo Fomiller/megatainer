@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 OS=`uname`
 if [ "$OS" = "Linux" ]; then
     GOOS="linux"
