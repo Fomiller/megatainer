@@ -13,7 +13,7 @@ ENV GOBIN=$HOME/go/bin
 ENV CARGOBIN=$HOME/.cargo/bin
 ENV AWS_PROFILE=default
 ENV AWS_ASSUME_PROFILE=default
-ENV LOCALBIN=/$USER/.local/bin
+ENV LOCALBIN=$HOME/.local/bin
 ENV PATH=$PATH:/usr/local/go/bin:$LOCALBIN:$GOPATH:$GOBIN:$CARGOBIN
 
 # install utility dependecies
@@ -55,7 +55,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "aws
     sh ./aws/install 
 
 # install just build tool
-RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/.local/bin 
+RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /.local/bin 
 
 # install additional tools
 COPY scripts ./scripts/
