@@ -13,7 +13,8 @@ ENV GOBIN=$HOME/go/bin
 ENV CARGOBIN=$HOME/.cargo/bin
 ENV AWS_PROFILE=default
 ENV AWS_ASSUME_PROFILE=default
-ENV PATH=$PATH:/usr/local/go/bin:/.local/bin:$GOPATH:$GOBIN:$CARGOBIN
+ENV LOCALBIN=$HOME/.local/bin
+ENV PATH=$PATH:/usr/local/go/bin:$LOCALBIN:$GOPATH:$GOBIN:$CARGOBIN
 
 # install utility dependecies
 RUN apt-get update -y && \
