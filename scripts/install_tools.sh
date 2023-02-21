@@ -1,16 +1,7 @@
 #!/bin/bash
 
-OS=`uname`
-if [ "$OS" = "Linux" ]; then
-    GOOS="linux"
-elif [ "$OS" = "Darwin" ]; then
-    GOOS="darwin"
-elif [ "$OS" = "FreeBSD" ]; then
-    GOOS="freebsd"
-else
-    echo "Unknown operating system $OS"
-    exit 1
-fi
+TF_VERSION=1.16
+TG_VERSION=0.42.8
 
 ARCH=`uname -m`
 if [ "$ARCH" = "x86_64" ]; then
@@ -26,17 +17,17 @@ echo "Running on ${ARCH}"
 echo "======> Installing Go programs"
 go install github.com/Fomiller/assume-role@latest
 
-echo "======> Installing Cargo programs"
-cargo install just 
+# echo "======> Installing Cargo programs"
+# cargo install just 
 
 # install terraform
 echo "======> Downloading and installing tfswitch"
 curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
-echo "======> Installing terraform 1.1.6"
-tfswitch 1.1.6
+echo "======> Installing terraform ${TF_VERSION}"
+tfswitch ${TF_VERSION}
 
 # install terragrunt
 echo "======> Downloading and installing tgswitch"
 curl -L https://raw.githubusercontent.com/warrensbox/tgswitch/release/install.sh | bash
-echo "======> Installing terragrunt 0.42.8"
-tgswitch 0.42.8
+echo "======> Installing terragrunt ${TG_VERSION}"
+tgswitch ${TG_VERSION}

@@ -13,7 +13,7 @@ ENV GOBIN=$HOME/go/bin
 ENV CARGOBIN=$HOME/.cargo/bin
 ENV AWS_PROFILE=default
 ENV AWS_ASSUME_PROFILE=default
-ENV PATH=$PATH:/usr/local/go/bin:/root/.please/bin:/.local/bin:$GOPATH:$GOBIN:$CARGOBIN
+ENV PATH=$PATH:/usr/local/go/bin:/.local/bin:$GOPATH:$GOBIN:$CARGOBIN
 
 # install utility dependecies
 RUN apt-get update -y && \
@@ -35,22 +35,28 @@ RUN echo "======> Downloading and installing python" && \
     apt-get install -y python3.9 \
     python3-distutils \
     python3-pip \
-    python3-apt && \
-    apt-get install python-is-python3
+    python3-apt \
+    python-is-python3
 
 # install golang
 RUN echo "======> Downloading and installing golang" && \
     wget -nv https://golang.org/dl/go${GO_VERSION}.linux-${TARGETARCH}.tar.gz && \
     rm -rf /usr/local/go && tar -C /usr/local -xzf go${GO_VERSION}.linux-${TARGETARCH}.tar.gz 
 
+# install rust
 RUN echo "======> Downloading and installing rust" && \
     curl https://sh.rustup.rs -sSf | sh -s -- -y && \
     source $HOME/.cargo/env
 
+# install aws cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "awscliv2.zip" && \
     unzip -qq awscliv2.zip && \
     sh ./aws/install 
 
+# install just build tool
+RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/.local/bin 
+
+# install additional tools
 COPY scripts ./scripts/
 RUN chmod +x -R ./scripts/ &&\
     ./scripts/install_tools.sh && \
