@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TF_VERSION=1.16
+TF_VERSION=1.3.9
 TG_VERSION=0.42.8
 
 ARCH=`uname -m`
