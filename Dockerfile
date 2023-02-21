@@ -13,7 +13,7 @@ ENV GOBIN=$HOME/go/bin
 ENV CARGOBIN=$HOME/.cargo/bin
 ENV AWS_PROFILE=default
 ENV AWS_ASSUME_PROFILE=default
-ENV LOCALBIN=$HOME/.local/bin
+ENV LOCALBIN=/$USER/.local/bin
 ENV PATH=$PATH:/usr/local/go/bin:$LOCALBIN:$GOPATH:$GOBIN:$CARGOBIN
 
 # install utility dependecies
