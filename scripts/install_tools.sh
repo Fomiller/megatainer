@@ -15,7 +15,7 @@ fi
 echo "Running on ${ARCH}"
 
 echo "======> Installing Go programs"
-go install github.com/Fomiller/assume-role@latest
+go install github.com/fomiller/assume-role@latest
 
 # echo "======> Installing Cargo programs"
 # cargo install just 
