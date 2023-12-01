@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TF_VERSION=1.3.9
-TG_VERSION=0.42.8
+TG_VERSION=0.48.5
 
 ARCH=`uname -m`
 if [ "$ARCH" = "x86_64" ]; then
