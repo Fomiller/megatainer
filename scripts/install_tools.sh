@@ -42,3 +42,6 @@ apt-get update && apt-get install doppler
 # install kubectl
 echo "======> Downloading and installing kubectl"
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl"
+mkdir -p ~/.local/bin 
+mv ./kubectl ~/.local/bin/kubectl
+kubectl version --client

@@ -19,10 +19,11 @@ ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
 # install utility dependecies
 RUN apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get -y install wget \
+    apt-get -y install \
+    wget \
     curl \
     git \
-    git \
+    vim \
     build-essential \
     zip \
     unzip
