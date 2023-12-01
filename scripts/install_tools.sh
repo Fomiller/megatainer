@@ -42,6 +42,24 @@ apt-get update && apt-get install doppler
 # install kubectl
 echo "======> Downloading and installing kubectl"
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl"
-mkdir -p ~/.local/bin 
-mv ./kubectl ~/.local/bin/kubectl
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 kubectl version --client
+
+echo "======> Downloading and installing kubectl convert"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl-convert"
+echo "$(cat kubectl-convert.sha256) kubectl-convert" | sha256sum --check
+sudo install -o root -g root -m 0755 kubectl-convert /usr/local/bin/kubectl-convert
+kubectl convert --help
+rm kubectl-convert kubectl-convert.sha256
+
+echo "======> Installing neovim"
+git clone https://github.com/neovim/neovim.git
+cd neovim
+make CMAKE_BUILD_TYPE=Release
+make install
+cd .. && rm -rf neovim
+
+echo "======> Installing kickstart.nvim"
+git clone https://github.com/nvim-lua/kickstart.nvim.git $HOME/.config/nvim
+

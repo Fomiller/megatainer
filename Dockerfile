@@ -13,20 +13,28 @@ ENV GOPATH=$HOME/go
 ENV GOBIN=$HOME/go/bin
 ENV CARGOBIN=$HOME/.cargo/bin
 ENV LOCALBIN=$HOME/.local/bin
-ENV PATH=$PATH:/usr/local/go/bin:$LOCALBIN:$GOPATH:$GOBIN:$CARGOBIN
+ENV NVIMBIN=$HOME/neovim/bin
+ENV PATH=$PATH:/usr/local/go/bin:$LOCALBIN:$GOPATH:$GOBIN:$CARGOBIN:$NVIMBIN
 ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
 
 # install utility dependecies
 RUN apt-get update -y && \
     apt-get upgrade -y && \
     apt-get -y install \
+    sudo \
     wget \
     curl \
     git \
-    vim \
     build-essential \
     zip \
-    unzip
+    unzip \
+    cmake \
+    gettext \
+    vim
+
+# setup directories
+RUN mkdir -p $HOME/.config \
+    mkdir -p $HOME/.local/bin
 
 # install python3.9
 RUN echo "======> Downloading and installing python ${PYTHON_VERSION}" && \
