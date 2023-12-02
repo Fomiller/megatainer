@@ -52,3 +52,9 @@ echo "$(cat kubectl-convert.sha256) kubectl-convert" | sha256sum --check
 sudo install -o root -g root -m 0755 kubectl-convert /usr/local/bin/kubectl-convert
 kubectl convert --help
 rm kubectl-convert kubectl-convert.sha256
+
+echo "======> Downloading and installing Helm cli"
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
