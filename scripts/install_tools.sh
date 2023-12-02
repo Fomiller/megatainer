@@ -52,14 +52,3 @@ echo "$(cat kubectl-convert.sha256) kubectl-convert" | sha256sum --check
 sudo install -o root -g root -m 0755 kubectl-convert /usr/local/bin/kubectl-convert
 kubectl convert --help
 rm kubectl-convert kubectl-convert.sha256
-
-echo "======> Installing neovim"
-git clone https://github.com/neovim/neovim.git
-cd neovim
-make CMAKE_BUILD_TYPE=Release
-make install
-cd .. && rm -rf neovim
-
-echo "======> Installing kickstart.nvim"
-git clone https://github.com/nvim-lua/kickstart.nvim.git $HOME/.config/nvim
-
