@@ -1,77 +1,62 @@
-FROM ubuntu:latest
+FROM alpine:latest
 
 ARG TARGETARCH
 ARG TARGETPLATFORM
 ARG TARGETOS
 ARG TARGETVARIENT
-ARG GO_VERSION=1.21.4
-ARG RUST_VERSION=1.74.0
-ARG PYTHON_VERSION=3.12
 
-ENV DEBIAN_FRONTEND=noninteractive
+ENV HOME=/home
 ENV GOPATH=$HOME/go
 ENV GOBIN=$HOME/go/bin
 ENV CARGOBIN=$HOME/.cargo/bin
 ENV LOCALBIN=$HOME/.local/bin
-ENV NVIMBIN=$HOME/neovim/bin
 ENV PATH=$PATH:/usr/local/go/bin:$LOCALBIN:$GOPATH:$GOBIN:$CARGOBIN:$NVIMBIN
-ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
+ENV PS1="\[\e[32m\][\[\e[m\]\[\e[31m\]\u\[\e[m\]\[\e[33m\]@\[\e[m\]\[\e[32m\]\${HOSTNAME:0:6}\[\e[m\]:\[\e[36m\]\w\[\e[m\]\[\e[32m\]]\[\e[m\]\[\e[32;47m\]\[\e[m\] "
+ENV EDITOR=nvim
+ENV SHELL=/bin/bash
 
-# install utility dependecies
-RUN apt-get update -y && \
-    apt-get upgrade -y && \
-    apt-get -y install \
-    sudo \
-    wget \
-    curl \
-    git \
-    build-essential \
-    zip \
-    unzip \
-    cmake \
-    gettext \
-    vim
+COPY scripts ./scripts/
+COPY .bashrc $HOME/.bashrc
 
 # setup directories
 RUN mkdir -p $HOME/.config \
     mkdir -p $HOME/.local/bin
 
-# install python3.9
-RUN echo "======> Downloading and installing python ${PYTHON_VERSION}" && \
-    apt-get update && \
-    apt-get install -y software-properties-common gcc && \
-    add-apt-repository -y ppa:deadsnakes/ppa && \
-    apt-get update && \
-    apt-get install -y python${PYTHON_VERSION} \
-    python3-distutils \
-    python3-pip \
-    python3-apt \
-    python-is-python3
+# # install utility dependecies
+RUN apk update && \
+    apk upgrade && \
+    apk add \
+    aws-cli \
+    bash \
+    bat \
+    build-base \
+    cmake \
+    curl \
+    exa \
+    fzf \
+    git \
+    gnupg \
+    go \
+    helm \ 
+    httpie \
+    jq \
+    just \
+    neovim \
+    python3 \
+    ripgrep \
+    shadow \
+    sudo \
+    unzip \
+    yq \
+    zip \
+    zoxide \
+    zsh \
+    rustup && rustup-init -y && source "$HOME/.cargo/env"
 
-# install golang
-RUN echo "======> Downloading and installing golang" && \
-    wget -nv https://golang.org/dl/go${GO_VERSION}.linux-${TARGETARCH}.tar.gz && \
-    rm -rf /usr/local/go && tar -C /usr/local -xzf go${GO_VERSION}.linux-${TARGETARCH}.tar.gz 
-
-# install rust
-RUN echo "======> Downloading and installing rust" && \
-    curl https://sh.rustup.rs -sSf | sh -s -- -y && \
-    . $HOME/.cargo/env
-
-# install aws cli
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "awscliv2.zip" && \
-    unzip -qq awscliv2.zip && \
-    ./aws/install 
-
-# install just build tool
-RUN curl \
-    --proto '=https' \
-    --tlsv1.2 \
-    -sSf https://just.systems/install.sh | bash -s -- --to /.local/bin 
 
 # install additional tools
-COPY scripts ./scripts/
 RUN chmod +x -R ./scripts/ &&\
     ./scripts/install_tools.sh && \
     rm -rf ./scripts/
 
+ENTRYPOINT [ "/bin/bash" ]
