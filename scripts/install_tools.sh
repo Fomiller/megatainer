@@ -56,3 +56,9 @@ KREW="krew-linux_${ARCH}" &&
 curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
 tar zxvf "${KREW}.tar.gz" &&
 ./"${KREW}" install krew
+
+
+echo "======> Downloading and installing Argocd cli"
+curl -sSL -o argocd-linux-${ARCH} https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-${ARCH}
+sudo install -m 555 argocd-linux-${ARCH} /usr/local/bin/argocd
+rm argocd-linux-${ARCH}
