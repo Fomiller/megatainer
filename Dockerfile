@@ -41,6 +41,7 @@ RUN apk update && \
     httpie \
     jq \
     just \
+    musl-dev \
     neovim \
     python3 \
     ripgrep \
